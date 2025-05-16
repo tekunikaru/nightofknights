@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Night Of Knights"
+config/version="0.1.0"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+DataManagerInstance="*res://sistema/DataManager.gd"
 
 [dotnet]
 
