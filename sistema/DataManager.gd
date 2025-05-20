@@ -61,7 +61,7 @@ class EnemySaveInfo:
 	var manapoints:int
 	var position:Vector2
 	var velocity:Vector2
-	func _init(ememy:BaseEnemy):
+	func _init(_enemy:BaseEnemy):
 		pass
 
 class ParticleSaveInfo:
