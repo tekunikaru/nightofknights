@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://nsydenwpg1oy"]
+
+[ext_resource type="Script" uid="uid://c350n0mv5bdar" path="res://entidades/jogador/jogador.gd" id="1_6kijy"]
+[ext_resource type="Script" uid="uid://cab5qag2iwf1e" path="res://niveis/ambiente.gd" id="1_etpul"]
+[ext_resource type="AudioStream" uid="uid://dcgkxke7oqxeo" path="res://entidades/sfx/jump.wav" id="2_6ab1p"]
+[ext_resource type="PackedScene" uid="uid://ruvfbbig1bxs" path="res://entidades/inimigos/hellhound.tscn" id="4_etpul"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_etpul"]
+friction = 0.5
+bounce = 0.5
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_m7krh"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6kijy"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6ab1p"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3skag"]
+radius = 25.0
+height = 50.0
+
+[node name="Testes" type="Node2D"]
+script = ExtResource("1_etpul")
+
+[node name="Chão" type="StaticBody2D" parent="."]
+position = Vector2(56, 569)
+rotation = 0.0174533
+physics_material_override = SubResource("PhysicsMaterial_etpul")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chão"]
+shape = SubResource("WorldBoundaryShape2D_m7krh")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chão"]
+position = Vector2(543.5, 77.25)
+scale = Vector2(1439, 155.5)
+texture = SubResource("PlaceholderTexture2D_6kijy")
+
+[node name="Jogador" type="CharacterBody2D" parent="."]
+position = Vector2(201, 200)
+floor_constant_speed = true
+script = ExtResource("1_6kijy")
+metadata/_custom_type_script = "uid://c350n0mv5bdar"
+
+[node name="Sprite2D" type="Sprite2D" parent="Jogador"]
+scale = Vector2(50, 50)
+texture = SubResource("PlaceholderTexture2D_6ab1p")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Jogador"]
+polygon = PackedVector2Array(16, 17, 13, -12, 0, -32, -20, -14, -18, 17)
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="Jogador"]
+stream = ExtResource("2_6ab1p")
+
+[node name="Camera2D" type="Camera2D" parent="Jogador"]
+limit_top = 0
+limit_bottom = 720
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+rotation_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_right_margin = 0.0
+drag_bottom_margin = 0.0
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+input_pickable = true
+can_sleep = false
+freeze_mode = 1
+linear_damp = 1.0
+angular_damp = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+scale = Vector2(50, 50)
+texture = SubResource("PlaceholderTexture2D_6ab1p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("CapsuleShape2D_3skag")
+
+[node name="Hellhound" parent="." instance=ExtResource("4_etpul")]

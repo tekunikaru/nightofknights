@@ -2,6 +2,8 @@ class_name DataManager extends Node
 
 const version = "1.0"
 var runtime_storage = {}
+var environment:Level = null
+var player:Player = null
 var current_scene = "interface/carregando.tscn"
 var config = {
 	"initial":true,
