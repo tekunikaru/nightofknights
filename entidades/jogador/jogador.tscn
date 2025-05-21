@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://bq35ygg15af2c"]
+
+[ext_resource type="Script" uid="uid://c350n0mv5bdar" path="res://entidades/jogador/jogador.gd" id="1_64dab"]
+[ext_resource type="AudioStream" uid="uid://dcgkxke7oqxeo" path="res://entidades/sfx/jump.wav" id="2_8d5dd"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6ab1p"]
+
+[node name="Jogador" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 11
+floor_constant_speed = true
+script = ExtResource("1_64dab")
+metadata/_custom_type_script = "uid://c350n0mv5bdar"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(50, 50)
+texture = SubResource("PlaceholderTexture2D_6ab1p")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(16, 17, 13, -12, 0, -32, -20, -14, -18, 17)
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_8d5dd")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_top = 0
+limit_bottom = 720
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+rotation_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_right_margin = 0.0
+drag_bottom_margin = 0.0

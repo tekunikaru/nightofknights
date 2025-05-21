@@ -1,8 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://ruvfbbig1bxs"]
+[gd_scene load_steps=23 format=3 uid="uid://ruvfbbig1bxs"]
 
-[ext_resource type="Texture2D" uid="uid://c7fej1qjai8d" path="res://entidades/inimigos/hellhound/sprites/hellhound.png" id="1_1sdmq"]
+[ext_resource type="Texture2D" uid="uid://c7fej1qjai8d" path="res://entidades/inimigos/hellhound/hellhound_sprites.png" id="1_1sdmq"]
 [ext_resource type="Script" uid="uid://dhhgrew644rw1" path="res://entidades/inimigos/inimigo_base.gd" id="1_vs05m"]
-[ext_resource type="AudioStream" uid="uid://dcgkxke7oqxeo" path="res://entidades/sfx/jump.wav" id="3_22iy1"]
+[ext_resource type="PackedScene" uid="uid://c1vmgts34kvxx" path="res://entidades/inimigos/EntityInfo.tscn" id="4_s5iwv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_22iy1"]
 atlas = ExtResource("1_1sdmq")
@@ -143,30 +143,53 @@ animations = [{
 radius = 50.0
 height = 500.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s5iwv"]
+radius = 40.0
+height = 100.0
+
 [node name="Hellhound" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 13
 script = ExtResource("1_vs05m")
 metadata/_custom_type_script = "uid://dhhgrew644rw1"
 metadata/hostile = true
 
+[node name="EntityInfo" parent="." instance=ExtResource("4_s5iwv")]
+visible = false
+offset_top = -100.0
+offset_bottom = -100.0
+
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-65, -45)
 sprite_frames = SubResource("SpriteFrames_3om8o")
-animation = &"Walk"
+animation = &"Idle"
 autoplay = "Idle"
+frame_progress = 0.123038
 
 [node name="CollisionArea" type="CollisionPolygon2D" parent="."]
 position = Vector2(0, -45)
-polygon = PackedVector2Array(31, 47, 51, 22, 28, -2, -32, 7, -31, 46)
-
-[node name="Jump" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_22iy1")
-
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
+polygon = PackedVector2Array(31, 48, 15, 10, -14, 10, -39, 19, -39, 47)
 
 [node name="DetectionArea" type="Area2D" parent="."]
 position = Vector2(-150, -50)
+collision_layer = 2
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_5gjrn")
+
+[node name="AttackArea" type="Area2D" parent="."]
+position = Vector2(-50, -40)
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_s5iwv")
+
+[node name="WalkTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AggroTimer" type="Timer" parent="."]
+one_shot = true

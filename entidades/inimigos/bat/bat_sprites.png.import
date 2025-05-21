@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7fej1qjai8d"
-path="res://.godot/imported/hellhound.png-845ed49ba25d250d0c8ab20b9b5f70c9.ctex"
+uid="uid://vmfoxmuyvdff"
+path="res://.godot/imported/bat_sprites.png-91e70e88790d4746145dc1ac848c821b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entidades/inimigos/hellhound/sprites/hellhound.png"
-dest_files=["res://.godot/imported/hellhound.png-845ed49ba25d250d0c8ab20b9b5f70c9.ctex"]
+source_file="res://entidades/inimigos/bat/bat_sprites.png"
+dest_files=["res://.godot/imported/bat_sprites.png-91e70e88790d4746145dc1ac848c821b.ctex"]
 
 [params]
 
