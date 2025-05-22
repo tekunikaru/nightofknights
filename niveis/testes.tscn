@@ -1,21 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://nsydenwpg1oy"]
+[gd_scene load_steps=9 format=4 uid="uid://nsydenwpg1oy"]
 
 [ext_resource type="Script" uid="uid://cab5qag2iwf1e" path="res://niveis/ambiente.gd" id="1_etpul"]
 [ext_resource type="PackedScene" uid="uid://bq35ygg15af2c" path="res://entidades/jogador/jogador.tscn" id="2_3skag"]
+[ext_resource type="TileSet" uid="uid://cgd34ps5nglb1" path="res://niveis/terreno/tiles.tres" id="2_lcthd"]
 [ext_resource type="PackedScene" uid="uid://ruvfbbig1bxs" path="res://entidades/inimigos/hellhound/hellhound.tscn" id="4_etpul"]
 [ext_resource type="PackedScene" uid="uid://hup2o1jqeowh" path="res://entidades/inimigos/elemental/elemental.tscn" id="4_m7krh"]
 [ext_resource type="PackedScene" uid="uid://b0cp4010avyts" path="res://entidades/inimigos/bat/bat.tscn" id="5_lcthd"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_etpul"]
-friction = 0.5
-bounce = 0.5
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_etpul"]
-size = Vector2(724.839, 47.5305)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6kijy"]
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_m7krh"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6ab1p"]
 
@@ -26,33 +16,11 @@ height = 50.0
 [node name="Testes" type="Node2D"]
 script = ExtResource("1_etpul")
 
-[node name="Plataforma" type="StaticBody2D" parent="."]
+[node name="Terreno" type="TileMapLayer" parent="."]
 position = Vector2(356, 450)
-rotation = 0.00349066
-physics_material_override = SubResource("PhysicsMaterial_etpul")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Plataforma"]
-position = Vector2(256.591, 25.6045)
-shape = SubResource("RectangleShape2D_etpul")
-
-[node name="Sprite2D" type="Sprite2D" parent="Plataforma"]
-position = Vector2(256, 25)
-scale = Vector2(725.167, 49.1573)
-texture = SubResource("PlaceholderTexture2D_6kijy")
-
-[node name="Chão" type="StaticBody2D" parent="."]
-position = Vector2(56, 569)
-rotation = 0.00174533
-collision_mask = 14
-physics_material_override = SubResource("PhysicsMaterial_etpul")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Chão"]
-shape = SubResource("WorldBoundaryShape2D_m7krh")
-
-[node name="Sprite2D" type="Sprite2D" parent="Chão"]
-position = Vector2(543.5, 77.25)
-scale = Vector2(1439, 155.5)
-texture = SubResource("PlaceholderTexture2D_6kijy")
+scale = Vector2(2, 2)
+tile_map_data = PackedByteArray("AAAAAAEAAgACAAEAAAAAAAIAAgACAAEAAAABAAIAAgACAAEAAAABAAMAAgACAAEAAAABAAQAAgACAAEAAAACAAQAAgACAAEAAAACAAMAAgACAAEAAAACAAIAAgACAAEAAAACAAEAAgACAAEAAAAAAAMAAgACAAEAAAAAAAQAAgACAAEAAAADAAIAAgACAAEAAAADAAEAAgACAAEAAAADAAQAAgACAAEAAAAEAAMAAgACAAEAAAAFAAIAAgACAAEAAAAFAAEAAgACAAEAAAAFAAMAAgACAAEAAAAEAAQAAgACAAEAAAAGAAQAAgACAAEAAAAGAAMAAgACAAEAAAAGAAIAAgACAAEAAAADAAMAAgACAAEAAAABAAEAAgACAAEAAAAFAAQAAgACAAEAAAA=")
+tile_set = ExtResource("2_lcthd")
 
 [node name="Jogador" parent="." instance=ExtResource("2_3skag")]
 position = Vector2(1100, 500)
