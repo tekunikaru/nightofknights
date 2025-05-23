@@ -139,8 +139,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_u60q3"]
-radius = 40.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ob0dn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5gjrn"]
 radius = 50.0
@@ -165,13 +164,12 @@ offset_bottom = -100.0
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-65, -45)
 sprite_frames = SubResource("SpriteFrames_3om8o")
-animation = &"Attack"
+animation = &"Idle"
 autoplay = "Idle"
-frame = 1
 
 [node name="CollisionArea" type="CollisionShape2D" parent="."]
 position = Vector2(-8, -34)
-shape = SubResource("CircleShape2D_u60q3")
+shape = SubResource("CapsuleShape2D_ob0dn")
 
 [node name="DetectionArea" type="Area2D" parent="."]
 position = Vector2(-150, -50)

@@ -26,7 +26,7 @@ func _ready() -> void:
 			die()
 	)
 
-func _process(_delta):
+func _physics_process(_delta):
 	if !level:
 		level = DataManagerInstance.runtime_storage.get("Level")
 		return
@@ -35,6 +35,11 @@ func _process(_delta):
 		velocity.y += level.gravity * gravity_multiplier
 	else:
 		jump_count = max_jump_count
+		if velocity.x != 0:
+			$Sprite.play("Walk")
+			$Sprite.flip_h = velocity.x > 0
+		elif velocity.x == 0:
+			$Sprite.play("Idle")
 	
 	if Input.is_action_just_pressed("jump"):
 		if is_on_floor() and !supermode:
