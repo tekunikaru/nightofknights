@@ -8,7 +8,7 @@ signal aggro(state: bool)
 @export var is_hostile: bool = false
 @export var contact_damage: bool = true
 @export var gravity_multiplier: float = 1
-@export var damage_dealt: int = 50
+@export var damage_dealt: int = 20
 @export var lifepoints: int = 100
 @export var manapoints: int = 100
 
@@ -17,7 +17,7 @@ signal aggro(state: bool)
 @export var speed: int = 100
 @export var walk_max_distance: int = 200
 @export var target_position: Vector2 = position
-@export var walk_timer: int = 5
+@export var walk_timer: int = 8
 
 @export_category("Aggro and Detection")
 @export var player_in_range: bool = false
@@ -28,24 +28,25 @@ var flipped: bool = true
 var level: Level = null
 var player: Player = null
 var last_player_pos: Vector2 = Vector2.ZERO
+var avoid_sfx: bool = false
 
 func _ready():
 	$DetectionArea.body_shape_entered.connect(func(_ix,body,_six,_lsix):
-		if (body is Player):
+		if (body is Player and is_hostile):
 			player_in_sight = true
 			aggro.emit(true)
 	)
 	$DetectionArea.body_shape_exited.connect(func(_ix,body,_six,_lsix):
-		if (body is Player):
+		if (body is Player and is_hostile):
 			player_in_sight = false
 			aggro.emit(false)
 	)
 	$AttackArea.body_shape_entered.connect(func(_ix,body,_six,_lsix):
-		if (body is Player):
+		if (body is Player and is_hostile):
 			player_in_range = true
 	)
 	$AttackArea.body_shape_exited.connect(func(_ix,body,_six,_lsix):
-		if (body is Player):
+		if (body is Player and is_hostile):
 			player_in_range = false
 	)
 	hit.connect(func(damage,direction):
@@ -70,7 +71,7 @@ func _process(_delta: float):
 		$AggroTimer.start(aggro_timer)
 	elif $WalkTimer.is_stopped():
 		target_position.x = position.x + (((randi()%walk_max_distance)*2)-walk_max_distance)
-		$WalkTimer.start(walk_timer)
+		$WalkTimer.start(walk_timer + (randi() % 5) -2 )
 	
 	if not $AggroTimer.is_stopped():
 		target_position = last_player_pos
@@ -80,14 +81,31 @@ func _process(_delta: float):
 		$Sprite.play("Walk")
 		if (velocity.x > 0 and flipped) or (velocity.x < 0 and !flipped):
 			flip()
+		if (has_node("Step")): if ($Sprite.frame == 1 or $Sprite.frame == 6) and not avoid_sfx:
+			avoid_sfx = true
+			$Step.play()
+		elif not ($Sprite.frame == 1 or $Sprite.frame == 6):
+			avoid_sfx = false
 	elif is_hostile and player_in_range:
+		if player.lifepoints - damage_dealt <= 0 and $Sprite.animation != "Attack":
+			Engine.time_scale = 0.2
+			get_tree().create_timer(0.6).connect("timeout",func():
+				Engine.time_scale = 1
+			)
+		if $Hit.playing:
+			return
+		$Hit.play()
 		$Sprite.play("Attack")
 		await $Sprite.animation_finished
-		var knockback = Vector2(player.position-position).normalized() * speed
-		player.hit.emit(damage_dealt,knockback)
-		if player.lifepoints <= 0:
-			is_hostile = false
-			$AggroTimer.stop()
+		if player_in_range and $Sprite.animation == "Attack":
+			$Sprite.play("Idle")
+			#var knockback = Vector2(player.position-position).normalized() * speed
+			player.hit.emit(damage_dealt,Vector2.ZERO)
+			if player.lifepoints <= 0:
+				is_hostile = false
+				player_in_range = false
+				player_in_sight = false
+				$AggroTimer.stop()
 	else:
 		$AggroTimer.stop()
 		velocity.x = 0
@@ -96,10 +114,16 @@ func _process(_delta: float):
 	move_and_slide()
 
 func flip():
-	scale.y = -1 if flipped else 1
-	rotation_degrees = 180 if flipped else 0
+	if flipped:
+		scale.y = -1
+		rotation_degrees = 180
+		$EntityInfo.scale.x = -1
+	else:
+		scale.y = 1
+		rotation_degrees = 0
+		$EntityInfo.scale.x = 1
+	
 	flipped = !flipped
-	$EntityInfo.scale.x = 1 if flipped else -1
 
 func die():
 	$Sprite.play("Death")

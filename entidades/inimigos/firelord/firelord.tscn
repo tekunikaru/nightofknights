@@ -1,9 +1,16 @@
-[gd_scene load_steps=22 format=3 uid="uid://bn3e3v1ihqtt8"]
+[gd_scene load_steps=30 format=3 uid="uid://bn3e3v1ihqtt8"]
 
 [ext_resource type="Script" uid="uid://dhhgrew644rw1" path="res://entidades/inimigos/inimigo_base.gd" id="1_d8g4y"]
 [ext_resource type="PackedScene" uid="uid://c1vmgts34kvxx" path="res://entidades/inimigos/EntityInfo.tscn" id="2_vib4v"]
 [ext_resource type="Texture2D" uid="uid://b03fsqsr1u80j" path="res://entidades/inimigos/firelord/firelord_sprites.png" id="3_8dtb7"]
 [ext_resource type="Texture2D" uid="uid://core4tlo55k3o" path="res://entidades/inimigos/elemental/seed_sprites.png" id="4_74eof"]
+[ext_resource type="AudioStream" uid="uid://k42ba8rk7n5v" path="res://entidades/sfx/fire_hit1.wav" id="5_6k0xx"]
+[ext_resource type="Texture2D" uid="uid://bao3ha1mvwli" path="res://entidades/point_light.webp" id="5_bev8j"]
+[ext_resource type="AudioStream" uid="uid://bi2ow6xgv4dsm" path="res://entidades/sfx/fire_hit2.wav" id="6_ivykn"]
+[ext_resource type="AudioStream" uid="uid://biov3ttr6im84" path="res://entidades/sfx/fire_hit3.wav" id="7_fjijg"]
+[ext_resource type="AudioStream" uid="uid://ckmoqnpbvnngk" path="res://entidades/sfx/fire_hit4.wav" id="8_7nhts"]
+[ext_resource type="AudioStream" uid="uid://dpof6uy013nfo" path="res://entidades/sfx/fire_hit5.wav" id="9_u46xj"]
+[ext_resource type="AudioStream" uid="uid://ywqdn7tlscd4" path="res://entidades/sfx/fire_hit6.wav" id="10_1sqir"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bev8j"]
 atlas = ExtResource("3_8dtb7")
@@ -158,6 +165,16 @@ height = 500.0
 radius = 40.0
 height = 100.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_u1n1l"]
+random_pitch = 1.1
+streams_count = 6
+stream_0/stream = ExtResource("5_6k0xx")
+stream_1/stream = ExtResource("6_ivykn")
+stream_2/stream = ExtResource("7_fjijg")
+stream_3/stream = ExtResource("8_7nhts")
+stream_4/stream = ExtResource("9_u46xj")
+stream_5/stream = ExtResource("10_1sqir")
+
 [node name="Lorde do Fogo" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 13
@@ -167,13 +184,15 @@ metadata/hostile = true
 
 [node name="EntityInfo" parent="." instance=ExtResource("2_vib4v")]
 visible = false
+light_mask = 0
 offset_top = -100.0
 offset_bottom = -100.0
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+light_mask = 3
 position = Vector2(-65, -45)
 sprite_frames = SubResource("SpriteFrames_3om8o")
-animation = &"Walk"
+animation = &"Attack"
 autoplay = "Idle"
 
 [node name="CollisionArea" type="CollisionPolygon2D" parent="."]
@@ -198,6 +217,20 @@ collision_mask = 4
 position = Vector2(0, -1)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_n1lpv")
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_u1n1l")
+bus = &"Efeitos"
+
+[node name="PointLight" type="PointLight2D" parent="."]
+light_mask = 3
+position = Vector2(-14, -41)
+energy = 2.0
+range_item_cull_mask = 2
+shadow_enabled = true
+shadow_item_cull_mask = 7
+texture = ExtResource("5_bev8j")
+texture_scale = 8.0
 
 [node name="WalkTimer" type="Timer" parent="."]
 one_shot = true

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Night Of Knights"
 config/version="0.1.0"
-run/main_scene="uid://nsydenwpg1oy"
+run/main_scene="uid://v13bixo4rgkv"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 

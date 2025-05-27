@@ -1,9 +1,16 @@
-[gd_scene load_steps=21 format=3 uid="uid://hup2o1jqeowh"]
+[gd_scene load_steps=29 format=3 uid="uid://hup2o1jqeowh"]
 
 [ext_resource type="Script" uid="uid://dhhgrew644rw1" path="res://entidades/inimigos/inimigo_base.gd" id="1_1h2o1"]
 [ext_resource type="Texture2D" uid="uid://csw7l3upoxp30" path="res://entidades/inimigos/elemental/elemental_sprites.png" id="2_s7a4r"]
 [ext_resource type="Texture2D" uid="uid://core4tlo55k3o" path="res://entidades/inimigos/elemental/seed_sprites.png" id="3_n1lpv"]
+[ext_resource type="AudioStream" uid="uid://k42ba8rk7n5v" path="res://entidades/sfx/fire_hit1.wav" id="5_1r80m"]
+[ext_resource type="Texture2D" uid="uid://bao3ha1mvwli" path="res://entidades/point_light.webp" id="5_g3pvj"]
 [ext_resource type="PackedScene" uid="uid://c1vmgts34kvxx" path="res://entidades/inimigos/EntityInfo.tscn" id="5_n1lpv"]
+[ext_resource type="AudioStream" uid="uid://bi2ow6xgv4dsm" path="res://entidades/sfx/fire_hit2.wav" id="6_chywy"]
+[ext_resource type="AudioStream" uid="uid://biov3ttr6im84" path="res://entidades/sfx/fire_hit3.wav" id="7_h5eku"]
+[ext_resource type="AudioStream" uid="uid://ckmoqnpbvnngk" path="res://entidades/sfx/fire_hit4.wav" id="8_lvxtj"]
+[ext_resource type="AudioStream" uid="uid://dpof6uy013nfo" path="res://entidades/sfx/fire_hit5.wav" id="9_h7pxx"]
+[ext_resource type="AudioStream" uid="uid://ywqdn7tlscd4" path="res://entidades/sfx/fire_hit6.wav" id="10_iuu4i"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_638qs"]
 atlas = ExtResource("2_s7a4r")
@@ -142,6 +149,16 @@ height = 500.0
 radius = 40.0
 height = 100.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wtwtx"]
+random_pitch = 1.1
+streams_count = 6
+stream_0/stream = ExtResource("5_1r80m")
+stream_1/stream = ExtResource("6_chywy")
+stream_2/stream = ExtResource("7_h5eku")
+stream_3/stream = ExtResource("8_lvxtj")
+stream_4/stream = ExtResource("9_h7pxx")
+stream_5/stream = ExtResource("10_iuu4i")
+
 [node name="Elemental" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 13
@@ -151,10 +168,12 @@ metadata/hostile = true
 
 [node name="EntityInfo" parent="." instance=ExtResource("5_n1lpv")]
 visible = false
+light_mask = 0
 offset_top = -100.0
 offset_bottom = -100.0
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+light_mask = 3
 position = Vector2(-65, -45)
 sprite_frames = SubResource("SpriteFrames_3om8o")
 animation = &"Idle"
@@ -183,8 +202,22 @@ collision_mask = 4
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_n1lpv")
 
+[node name="Hit" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_wtwtx")
+bus = &"Efeitos"
+
 [node name="WalkTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="AggroTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="PointLight" type="PointLight2D" parent="."]
+light_mask = 3
+position = Vector2(-6, -28)
+energy = 2.0
+range_item_cull_mask = 2
+shadow_enabled = true
+shadow_item_cull_mask = 7
+texture = ExtResource("5_g3pvj")
+texture_scale = 2.0

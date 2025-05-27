@@ -1,8 +1,21 @@
-[gd_scene load_steps=23 format=3 uid="uid://ruvfbbig1bxs"]
+[gd_scene load_steps=38 format=3 uid="uid://ruvfbbig1bxs"]
 
 [ext_resource type="Texture2D" uid="uid://c7fej1qjai8d" path="res://entidades/inimigos/hellhound/hellhound_sprites.png" id="1_1sdmq"]
 [ext_resource type="Script" uid="uid://dhhgrew644rw1" path="res://entidades/inimigos/inimigo_base.gd" id="1_vs05m"]
+[ext_resource type="Texture2D" uid="uid://bao3ha1mvwli" path="res://entidades/point_light.webp" id="4_abdmt"]
+[ext_resource type="AudioStream" uid="uid://b83hgugabweq3" path="res://entidades/sfx/grass1.wav" id="4_m4ss0"]
 [ext_resource type="PackedScene" uid="uid://c1vmgts34kvxx" path="res://entidades/inimigos/EntityInfo.tscn" id="4_s5iwv"]
+[ext_resource type="AudioStream" uid="uid://dlbr6lakwswxl" path="res://entidades/sfx/grass2.wav" id="5_wayj4"]
+[ext_resource type="AudioStream" uid="uid://n6fpr240sknw" path="res://entidades/sfx/grass3.wav" id="6_aiax2"]
+[ext_resource type="AudioStream" uid="uid://urs6auaevdek" path="res://entidades/sfx/grass4.wav" id="7_ndrjh"]
+[ext_resource type="AudioStream" uid="uid://cs8sptqh1p20j" path="res://entidades/sfx/grass5.wav" id="8_mxq43"]
+[ext_resource type="AudioStream" uid="uid://dct1geihgsjxf" path="res://entidades/sfx/grass6.wav" id="9_ipknu"]
+[ext_resource type="AudioStream" uid="uid://k42ba8rk7n5v" path="res://entidades/sfx/fire_hit1.wav" id="10_7lss0"]
+[ext_resource type="AudioStream" uid="uid://bi2ow6xgv4dsm" path="res://entidades/sfx/fire_hit2.wav" id="11_btp2d"]
+[ext_resource type="AudioStream" uid="uid://biov3ttr6im84" path="res://entidades/sfx/fire_hit3.wav" id="12_de3my"]
+[ext_resource type="AudioStream" uid="uid://ckmoqnpbvnngk" path="res://entidades/sfx/fire_hit4.wav" id="13_vry8d"]
+[ext_resource type="AudioStream" uid="uid://dpof6uy013nfo" path="res://entidades/sfx/fire_hit5.wav" id="14_cm3h3"]
+[ext_resource type="AudioStream" uid="uid://ywqdn7tlscd4" path="res://entidades/sfx/fire_hit6.wav" id="15_sjd1b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_22iy1"]
 atlas = ExtResource("1_1sdmq")
@@ -147,6 +160,26 @@ height = 500.0
 radius = 40.0
 height = 100.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7lss0"]
+random_pitch = 1.1
+streams_count = 6
+stream_0/stream = ExtResource("4_m4ss0")
+stream_1/stream = ExtResource("5_wayj4")
+stream_2/stream = ExtResource("6_aiax2")
+stream_3/stream = ExtResource("7_ndrjh")
+stream_4/stream = ExtResource("8_mxq43")
+stream_5/stream = ExtResource("9_ipknu")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_av3oe"]
+random_pitch = 1.1
+streams_count = 6
+stream_0/stream = ExtResource("10_7lss0")
+stream_1/stream = ExtResource("11_btp2d")
+stream_2/stream = ExtResource("12_de3my")
+stream_3/stream = ExtResource("13_vry8d")
+stream_4/stream = ExtResource("14_cm3h3")
+stream_5/stream = ExtResource("15_sjd1b")
+
 [node name="Hellhound" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 13
@@ -155,11 +188,13 @@ metadata/_custom_type_script = "uid://dhhgrew644rw1"
 metadata/hostile = true
 
 [node name="EntityInfo" parent="." instance=ExtResource("4_s5iwv")]
-visible = false
+light_mask = 0
 offset_top = -100.0
 offset_bottom = -100.0
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.8, 0.8, 0.8, 1)
+light_mask = 3
 position = Vector2(-65, -45)
 sprite_frames = SubResource("SpriteFrames_3om8o")
 animation = &"Idle"
@@ -168,7 +203,7 @@ frame_progress = 0.123038
 
 [node name="CollisionArea" type="CollisionPolygon2D" parent="."]
 position = Vector2(0, -45)
-polygon = PackedVector2Array(31, 48, 15, 10, -14, 10, -39, 19, -39, 47)
+polygon = PackedVector2Array(31, 48, 18, 9, -23, 10, -37, 19, -39, 47)
 
 [node name="DetectionArea" type="Area2D" parent="."]
 position = Vector2(-150, -50)
@@ -187,6 +222,33 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_s5iwv")
+
+[node name="Step" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_7lss0")
+volume_db = -15.0
+bus = &"Efeitos"
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_av3oe")
+bus = &"Efeitos"
+
+[node name="PointLight" type="PointLight2D" parent="."]
+energy = 2.0
+range_item_cull_mask = 2
+shadow_enabled = true
+shadow_item_cull_mask = 7
+texture = ExtResource("4_abdmt")
+texture_scale = 4.0
+
+[node name="PointLight2" type="PointLight2D" parent="."]
+light_mask = 3
+position = Vector2(-10, -25)
+energy = 2.0
+range_item_cull_mask = 2
+shadow_enabled = true
+shadow_item_cull_mask = 7
+texture = ExtResource("4_abdmt")
+texture_scale = 4.0
 
 [node name="WalkTimer" type="Timer" parent="."]
 one_shot = true

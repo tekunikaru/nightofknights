@@ -1,7 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://b0cp4010avyts"]
+[gd_scene load_steps=25 format=3 uid="uid://b0cp4010avyts"]
 
 [ext_resource type="Script" uid="uid://dhhgrew644rw1" path="res://entidades/inimigos/inimigo_base.gd" id="1_ilrkv"]
 [ext_resource type="Texture2D" uid="uid://vmfoxmuyvdff" path="res://entidades/inimigos/bat/bat_sprites.png" id="2_ob0dn"]
+[ext_resource type="AudioStream" uid="uid://c5a4w14pnb4ve" path="res://entidades/sfx/hit.wav" id="4_2t4ce"]
 [ext_resource type="PackedScene" uid="uid://c1vmgts34kvxx" path="res://entidades/inimigos/EntityInfo.tscn" id="4_u60q3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u60q3"]
@@ -140,6 +141,7 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ob0dn"]
+height = 50.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5gjrn"]
 radius = 50.0
@@ -158,6 +160,7 @@ metadata/hostile = true
 
 [node name="EntityInfo" parent="." instance=ExtResource("4_u60q3")]
 visible = false
+light_mask = 0
 offset_top = -100.0
 offset_bottom = -100.0
 
@@ -168,7 +171,7 @@ animation = &"Idle"
 autoplay = "Idle"
 
 [node name="CollisionArea" type="CollisionShape2D" parent="."]
-position = Vector2(-8, -34)
+position = Vector2(-8, -15)
 shape = SubResource("CapsuleShape2D_ob0dn")
 
 [node name="DetectionArea" type="Area2D" parent="."]
@@ -188,6 +191,10 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_u60q3")
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_2t4ce")
+bus = &"Efeitos"
 
 [node name="WalkTimer" type="Timer" parent="."]
 one_shot = true

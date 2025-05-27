@@ -1,9 +1,32 @@
-[gd_scene format=3 uid="uid://biyc5buaxlv7l"]
+[gd_scene load_steps=4 format=3 uid="uid://biyc5buaxlv7l"]
 
-[node name="Hud" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[ext_resource type="Texture2D" uid="uid://nolpp7hut1pe" path="res://interface/hud/life.png" id="1_qnvtr"]
+
+[sub_resource type="SystemFont" id="SystemFont_qnvtr"]
+font_names = PackedStringArray("Monospace")
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_j5tbm"]
+font = SubResource("SystemFont_qnvtr")
+font_size = 64
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="Lifebar" type="TextureProgressBar" parent="."]
+offset_right = 576.0
+offset_bottom = 218.0
+scale = Vector2(0.5, 0.5)
+value = 100.0
+texture_progress = ExtResource("1_qnvtr")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
 grow_horizontal = 2
-grow_vertical = 2
+text = "00:00"
+label_settings = SubResource("LabelSettings_j5tbm")
+horizontal_alignment = 1
