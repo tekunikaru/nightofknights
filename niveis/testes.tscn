@@ -24,6 +24,14 @@ tile_set = ExtResource("2_lcthd")
 
 [node name="Jogador" parent="." instance=ExtResource("2_3skag")]
 position = Vector2(1100, 500)
+lifepoints = 100
+manapoints = 100
+staminapoints = 100
+supermode = false
+move_speed = 200.0
+jump_force = 800.0
+gravity_multiplier = 1.0
+max_jump_count = 2
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 position = Vector2(1000, 0)

@@ -46,6 +46,12 @@ func _physics_process(_delta):
 		if $Sprite.animation != "Jump" and $Sprite.animation != "Death":
 			$Sprite.play("Fall")
 	elif $Sprite.animation != "Death":
+		if not get_last_slide_collision() == null:
+			var collider = get_last_slide_collision().get_collider()
+			if collider is BaseEnemy: if position.y < collider.position.y and abs(position.x - collider.position.x) < 15:
+				print("damage")
+				
+				
 		jump_count = max_jump_count
 		if velocity.x != 0:
 			$Sprite.play("Walk")
